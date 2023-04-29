@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "apriltwentythree/sub-menu",
+  "title": "Dropdown menu",
+  "category": "widgets",
+  "icon": "menu",
+  "description": "Adds a cutom dropdown menu",
+  "keywords": ["sidebar", "dropdown"],
+  "version": "1",
+  "textdomain": "apriltwentythree"
+}
