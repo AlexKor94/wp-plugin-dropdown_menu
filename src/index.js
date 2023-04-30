@@ -1,8 +1,11 @@
 import { registerBlockType } from '@wordpress/blocks';
 import block from "./block.json";
-import { InspectorControls, PanelBody, TextControl } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from "@wordpress/components";
+
 registerBlockType(block.name, {
-  edit() {
+  edit({ attributes, setAttributes }) {
     return (
       <>
         <InspectorControls>
@@ -14,42 +17,16 @@ registerBlockType(block.name, {
             />
           </PanelBody>
         </InspectorControls>
-        <div class="my-block" data-my-custom-link={attributes.myCustomLink}>
-        </div>
-        < nav id="menu" >
-          <header class="major">
-            <h2>Menu</h2>
-          </header>
-          <ul>
-            <li><a href="index.html">Homepage</a></li>
-            <li><a href="generic.html">Generic</a></li>
-            <li><a href="elements.html">Elements</a></li>
-            <li>
-              <span class="opener">Submenu</span>
-              <ul>
-                <li><a href="#">Lorem Dolor</a></li>
-                <li><a href="#">Ipsum Adipiscing</a></li>
-                <li><a href="#">Tempus Magna</a></li>
-                <li><a href="#">Feugiat Veroeros</a></li>
-              </ul>
-            </li>
-            <li><a href="#">Etiam Dolore</a></li>
-            <li><a href="#">Adipiscing</a></li>
-            <li>
-              <span class="opener">Another Submenu</span>
-              <ul>
-                <li><a href="#">Lorem Dolor</a></li>
-                <li><a href="#">Ipsum Adipiscing</a></li>
-                <li><a href="#">Tempus Magna</a></li>
-                <li><a href="#">Feugiat Veroeros</a></li>
-              </ul>
-            </li>
-            <li><a href="#">Maximus Erat</a></li>
-            <li><a href="#">Sapien Mauris</a></li>
-            <li><a href="#">Amet Lacinia</a></li>
-          </ul>
-        </nav >
+        <p>some content</p>
       </>
     );
-  }
+  },
+
+  save({ attributes }) {
+    return (
+      <div>
+        <p>some content</p>
+      </div>
+    );
+  },
 });
