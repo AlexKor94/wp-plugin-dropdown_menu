@@ -20,7 +20,7 @@
     "type": "array",
     "source": "children",
     "selector": "ul",
-    "default": ["1","2","3"]
+    "default": []
   }
   },
   "editorScript":"file:./index.js",
