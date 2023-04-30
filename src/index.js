@@ -9,27 +9,50 @@ import { decodeEntities } from '@wordpress/html-entities';
 
 registerBlockType(block.name, {
   edit({ attributes, setAttributes }) {
-    function PagesList({ pages }) {
+    const { title, links, type } = attributes;
+    const menuAdding = () => {
       return (
         <ul>
-          {pages?.map(page => (
-            <li key={page.id}>
-              {decodeEntities(page.title.rendered)}
+          {links.map((link, index) => (
+            <li key={index}>
+              <TextControl
+                value={link}
+                onChange={(value) => {
+                  const newLinks = [...links];
+                  newLinks[index] = value;
+                  setAttributes({ links: newLinks });
+                }}
+              />
             </li>
           ))}
         </ul>
       )
     }
 
-    const pages = useSelect(
-      select =>
-        select(coreDataStore).getEntityRecords('postType', 'page'),
-      []
-    );
-
-    const { title, links, type } = attributes;
     return (
-      <PagesList pages={pages} />
+      <>
+        <ul>
+          {links.map((link, index) => (
+            <li key={index}>
+              <TextControl
+                value={link}
+                onChange={(value) => {
+                  const newLinks = [...links];
+                  newLinks[index] = value;
+                  setAttributes({ links: newLinks });
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+
+        <button onClick={() => setAttributes({ links: [...links, ''] })}>
+          {__('Add Link')}
+        </button>
+        <button onClick={() => menuAdding()}>
+          {__('Add Menu')}
+        </button>
+      </>
     );
   }
 });
