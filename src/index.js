@@ -1,6 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import block from "./block.json";
 import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
 import { InspectorControls, RichText, List } from '@wordpress/block-editor';
 import { PanelBody, TextControl, SelectControl, Button } from "@wordpress/components";
 import { useSelect } from '@wordpress/data';
@@ -10,61 +11,78 @@ import { decodeEntities } from '@wordpress/html-entities';
 registerBlockType(block.name, {
 
   edit({ attributes, setAttributes }) {
-    function setLinks(newLinks) {
-      setAttributes({ links: newLinks });
-    }
 
-    function Menu({ links, setLinks }) {
-      const renderItem = (link, index) => (
-        <li key={index}>
-          <TextControl
-            value={link}
-            onChange={(value) => {
-              const newLinks = [...links];
-              newLinks[index] = value;
-              setLinks(newLinks);
-            }}
-          />
-        </li>
-      );
-
-      return (
-        <ul>
-          {links.map((link, index) => (
-            <li key={index}>
-              <TextControl
-                value={link}
-                onChange={(value) => {
-                  const newLinks = [...links];
-                  newLinks[index] = value;
-                  setAttributes({ links: newLinks });
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      );
-    }
-
-    const { title, links, type } = attributes;
+    const { title, links, type, items } = attributes;
 
     const addLink = () => {
       setAttributes({ links: [...links, ''] });
     };
 
-    const addMenu = () => {
-      const newMenu = Array(3).fill('');
-      setAttributes({ links: [...links, newMenu] });
+    const addSubMenu = () => {
+      setAttributes({ items: [...items, { title: '', links: [] }] });
     };
+
+    const updateSubMenu = (index, newSubmenu) => {
+      const newItems = [...items];
+      newItems[index] = newSubmenu;
+      setAttributes({ items: newItems });
+    };
+
+    const updateLink = (index, newLink) => {
+      const newLinks = [...links];
+      newLinks[index] = newLink;
+      setAttributes({ links: newLinks });
+    };
+
+    const updateTitle = (newTitle) => {
+      setAttributes({ title: newTitle });
+    };
+
+    const renderLink = (link, index) => (
+      <li key={index}>
+        <TextControl
+          value={link}
+          onChange={(value) => updateLink(index, value)}
+        />
+      </li>
+    );
+
+    const renderSubMenu = (item, index) => (
+      <li key={index}>
+        <TextControl
+          value={item.title}
+          onChange={(value) => updateSubMenu(index, { ...item, title: value })}
+        />
+        <ul>
+          {item.links.map((link, subIndex) => renderLink(link, subIndex))}
+          <li>
+            <Button isDefault onClick={() => {
+              updateSubMenu(index, { ...item, links: [...item.links, ''] });
+            }}>{__('Add Link')}</Button>
+          </li>
+        </ul>
+      </li>
+    );
 
     return (
       <>
-        <Menu links={links} setLinks={setAttributes} />
-        <button onClick={addLink}>{__('Add Link')}</button>
-        <button onClick={addMenu}>{__('Add Menu')}</button>
+        <InspectorControls>
+          <PanelBody title={__('Menu Settings')}>
+            <TextControl
+              label={__('Title')}
+              value={title}
+              onChange={(value) => updateTitle(value)}
+            />
+            <Button isDefault onClick={addLink}>{__('Add Link')}</Button>
+            <Button isDefault onClick={addSubMenu}>{__('Add Submenu')}</Button>
+          </PanelBody>
+        </InspectorControls>
+        <ul>
+          {links.map((link, index) => renderLink(link, index))}
+          {items.map((item, index) => renderSubMenu(item, index))}
+        </ul>
       </>
     );
 
   }
-
 });
