@@ -6,22 +6,28 @@
   "category": "theme",
   "icon": "menu",
   "description": "Adds a cutom dropdown menu",
-  "keywords": ["sidebar", "dropdown"],
+  "keywords": ["sidebar", "dropdown", "menu", "list"],
   "version": "1",
   "textdomain": "apriltwentythree",
   "attributes": {
-  "myCustomLink": {
-    "type": "string",
-    "default": "",
-    "source": "attribute",
-    "attribute": "data-my-custom-link"
-},
   "items": {
     "type": "array",
     "source": "children",
     "selector": "ul",
     "default": []
-  }
+  },
+   "title": {
+      "type":"string",
+      "default":""
+      },
+    "links":{
+      "type":"array",
+      "default":[]
+      },
+    "type":{
+      "type":"string",
+      "default":"unordered"
+      }
   },
   "editorScript":"file:./index.js",
   "viewScript":""
