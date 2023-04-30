@@ -22,7 +22,7 @@
       },
     "links":{
       "type":"array",
-      "default":[]
+      "default":["1"]
       },
     "type":{
       "type":"string",
