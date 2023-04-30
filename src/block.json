@@ -15,7 +15,13 @@
     "default": "",
     "source": "attribute",
     "attribute": "data-my-custom-link"
-}
+},
+  "items": {
+    "type": "array",
+    "source": "children",
+    "selector": "ul",
+    "default": ["1","2","3"]
+  }
   },
   "editorScript":"file:./index.js",
   "viewScript":""
