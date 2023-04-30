@@ -8,9 +8,26 @@ import { store as coreDataStore } from '@wordpress/core-data';
 import { decodeEntities } from '@wordpress/html-entities';
 
 registerBlockType(block.name, {
+
   edit({ attributes, setAttributes }) {
-    const { title, links, type } = attributes;
-    const menuAdding = () => {
+    function setLinks(newLinks) {
+      setAttributes({ links: newLinks });
+    }
+
+    function Menu({ links, setLinks }) {
+      const renderItem = (link, index) => (
+        <li key={index}>
+          <TextControl
+            value={link}
+            onChange={(value) => {
+              const newLinks = [...links];
+              newLinks[index] = value;
+              setLinks(newLinks);
+            }}
+          />
+        </li>
+      );
+
       return (
         <ul>
           {links.map((link, index) => (
@@ -26,33 +43,28 @@ registerBlockType(block.name, {
             </li>
           ))}
         </ul>
-      )
+      );
     }
+
+    const { title, links, type } = attributes;
+
+    const addLink = () => {
+      setAttributes({ links: [...links, ''] });
+    };
+
+    const addMenu = () => {
+      const newMenu = Array(3).fill('');
+      setAttributes({ links: [...links, newMenu] });
+    };
 
     return (
       <>
-        <ul>
-          {links.map((link, index) => (
-            <li key={index}>
-              <TextControl
-                value={link}
-                onChange={(value) => {
-                  const newLinks = [...links];
-                  newLinks[index] = value;
-                  setAttributes({ links: newLinks });
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-
-        <button onClick={() => setAttributes({ links: [...links, ''] })}>
-          {__('Add Link')}
-        </button>
-        <button onClick={() => menuAdding()}>
-          {__('Add Menu')}
-        </button>
+        <Menu links={links} setLinks={setAttributes} />
+        <button onClick={addLink}>{__('Add Link')}</button>
+        <button onClick={addMenu}>{__('Add Menu')}</button>
       </>
     );
+
   }
+
 });
