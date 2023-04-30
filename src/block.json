@@ -3,10 +3,20 @@
   "apiVersion": 2,
   "name": "apriltwentythree/sub-menu",
   "title": "Dropdown menu",
-  "category": "widgets",
+  "category": "theme",
   "icon": "menu",
   "description": "Adds a cutom dropdown menu",
   "keywords": ["sidebar", "dropdown"],
   "version": "1",
-  "textdomain": "apriltwentythree"
+  "textdomain": "apriltwentythree",
+  "attributes": {
+  "myCustomLink": {
+    "type": "string",
+    "default": "",
+    "source": "attribute",
+    "attribute": "data-my-custom-link"
+}
+  },
+  "editorScript":"file:./index.js",
+  "viewScript":""
 }
