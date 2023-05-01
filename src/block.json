@@ -27,7 +27,15 @@
     "type":{
       "type":"string",
       "default":"unordered"
-      }
+      },
+    "menu": {
+      "type": "object",
+      "default": {
+        "items": [],
+        "links": [],
+        "type": "unordered"
+    }
+  } 
   },
   "editorScript":"file:./index.js",
   "viewScript":""
