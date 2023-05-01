@@ -11,6 +11,8 @@ import { decodeEntities } from '@wordpress/html-entities';
 registerBlockType(block.name, {
 
   edit({ attributes, setAttributes }) {
+    const { menu, title } = attributes;
+
     function Menu({ menu, setMenu }) {
       const [newItemTitle, setNewItemTitle] = useState('');
 
@@ -27,7 +29,7 @@ registerBlockType(block.name, {
       };
 
       const onTitleChange = (value) => {
-        setMenu({ ...menu, title: value });
+        setAttributes({ title });
       };
 
       const onItemTitleChange = (index, value) => {
@@ -49,7 +51,7 @@ registerBlockType(block.name, {
       const renderItem = (item, index) => {
         return (
           <li key={index}>
-            <TextControl value={item.title} onChange={(value) => onItemTitleChange(index, value)} />
+            <TextControl value={item.title} onChange={(value) => onItemTitleChange(value)} />
             <Button onClick={() => onAddSubmenu(index)}>{__('Add Submenu')}</Button>
             {item.submenu.length > 0 && (
               <ul>
@@ -66,7 +68,7 @@ registerBlockType(block.name, {
 
       return (
         <>
-          <TextControl label={__('Menu Title')} value={menu.title} onChange={onTitleChange} />
+          <TextControl label={__('Menu Title')} value={title} onChange={onTitleChange} />
           <SelectControl
             label={__('Menu Type')}
             value={menu.type}
@@ -86,7 +88,6 @@ registerBlockType(block.name, {
         </>
       );
     }
-    const { menu } = attributes;
 
     const onMenuChange = (newMenu) => {
       setAttributes({ menu: newMenu });
