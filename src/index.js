@@ -73,8 +73,8 @@ registerBlockType(block.name, {
               value={title}
               onChange={(value) => updateTitle(value)}
             />
-            <Button isDefault onClick={addLink}>{__('Add Link')}</Button>
-            <Button isDefault onClick={addSubMenu}>{__('Add Submenu')}</Button>
+            <Button onClick={addLink}>{__('Add Link')}</Button>
+            <Button onClick={addSubMenu}>{__('Add Submenu')}</Button>
           </PanelBody>
         </InspectorControls>
         <ul>
