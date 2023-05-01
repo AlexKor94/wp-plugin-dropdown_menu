@@ -28,7 +28,7 @@ registerBlockType(block.name, {
         setMenu({ ...menu, items: newItems });
       };
 
-      const onTitleChange = (value) => {
+      const onTitleChange = (title) => {
         setAttributes({ title });
       };
 
@@ -51,7 +51,7 @@ registerBlockType(block.name, {
       const renderItem = (item, index) => {
         return (
           <li key={index}>
-            <TextControl value={item.title} onChange={(value) => onItemTitleChange(value)} />
+            <TextControl value={item.title} onChange={(value) => onItemTitleChange(index, value)} />
             <Button onClick={() => onAddSubmenu(index)}>{__('Add Submenu')}</Button>
             {item.submenu.length > 0 && (
               <ul>
@@ -68,7 +68,6 @@ registerBlockType(block.name, {
 
       return (
         <>
-          <TextControl label={__('Menu Title')} value={title} onChange={onTitleChange} />
           <SelectControl
             label={__('Menu Type')}
             value={menu.type}
@@ -95,6 +94,7 @@ registerBlockType(block.name, {
 
     return (
       <>
+        <TextControl label={__('Menu Title')} value={title} onChange={(val) => setAttributes({ title: val })} />
         <Menu menu={menu} setMenu={onMenuChange} />
       </>
     );
