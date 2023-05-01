@@ -10,32 +10,24 @@
   "version": "1",
   "textdomain": "apriltwentythree",
   "attributes": {
-  "items": {
-    "type": "array",
-    "source": "children",
-    "selector": "ul",
-    "default": []
-  },
    "title": {
       "type":"string",
       "default":""
-      },
-    "links":{
-      "type":"array",
-      "default":[]
       },
     "type":{
       "type":"string",
       "default":"unordered"
       },
     "menu": {
-      "type": "object",
-      "default": {
-        "items": [],
-        "links": [],
-        "type": "unordered"
-    }
-  } 
+        "type":"array",
+        "default": [
+          {
+            "linkTitle": "",
+            "link":"",
+            "subItems":[]
+          }
+        ]
+      }
   },
   "editorScript":"file:./index.js",
   "viewScript":""
