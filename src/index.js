@@ -11,12 +11,33 @@ import { decodeEntities } from '@wordpress/html-entities';
 registerBlockType(block.name, {
 
   edit({ attributes, setAttributes }) {
-    const { title } = attributes;
-    const { linkTitle, link, subItems } = menu;
+    const { title, menu } = attributes;
+
+    const onAddItem = (arr) => {
+      const newMenu = [...menu, arr];
+      setAttributes({ menu: newMenu });
+    };
 
     return (
       <>
         <TextControl label={__('Menu Title')} value={title} onChange={(title) => setAttributes({ title })} />
+        <ul>
+          {
+            menu.map(element => {
+              <li>
+                <TextControl
+                  label={__('Link Title')}
+                  value={element.linkTitle}
+                  onChange={(linkTitle) => onAddItem(
+                    [{
+                      "linkTitle": element.linkTitle,
+                      "link": "",
+                      "subItems": []
+                    }])} />
+              </li>
+            })
+          }
+        </ul>
       </>
     );
   }
