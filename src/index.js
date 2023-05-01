@@ -1,7 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import block from "./block.json";
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import { InspectorControls, RichText, List } from '@wordpress/block-editor';
 import { PanelBody, TextControl, SelectControl, Button } from "@wordpress/components";
 import { useSelect } from '@wordpress/data';
@@ -11,78 +11,91 @@ import { decodeEntities } from '@wordpress/html-entities';
 registerBlockType(block.name, {
 
   edit({ attributes, setAttributes }) {
+    function Menu({ menu, setMenu }) {
+      const [newItemTitle, setNewItemTitle] = useState('');
 
-    const { title, links, type, items } = attributes;
+      const onAddItem = () => {
+        const newItems = [...menu.items, { title: newItemTitle, submenu: [] }];
+        setMenu({ ...menu, items: newItems });
+        setNewItemTitle('');
+      };
 
-    const addLink = () => {
-      setAttributes({ links: [...links, ''] });
-    };
+      const onAddSubmenu = (index) => {
+        const newItems = [...menu.items];
+        newItems[index].submenu.push({ title: '', submenu: [] });
+        setMenu({ ...menu, items: newItems });
+      };
 
-    const addSubMenu = () => {
-      setAttributes({ items: [...items, { title: '', links: [] }] });
-    };
+      const onTitleChange = (value) => {
+        setMenu({ ...menu, title: value });
+      };
 
-    const updateSubMenu = (index, newSubmenu) => {
-      const newItems = [...items];
-      newItems[index] = newSubmenu;
-      setAttributes({ items: newItems });
-    };
+      const onItemTitleChange = (index, value) => {
+        const newItems = [...menu.items];
+        newItems[index].title = value;
+        setMenu({ ...menu, items: newItems });
+      };
 
-    const updateLink = (index, newLink) => {
-      const newLinks = [...links];
-      newLinks[index] = newLink;
-      setAttributes({ links: newLinks });
-    };
+      const onSubmenuTitleChange = (itemIndex, submenuIndex, value) => {
+        const newItems = [...menu.items];
+        newItems[itemIndex].submenu[submenuIndex].title = value;
+        setMenu({ ...menu, items: newItems });
+      };
 
-    const updateTitle = (newTitle) => {
-      setAttributes({ title: newTitle });
-    };
+      const onItemTypeChange = (value) => {
+        setMenu({ ...menu, type: value });
+      };
 
-    const renderLink = (link, index) => (
-      <li key={index}>
-        <TextControl
-          value={link}
-          onChange={(value) => updateLink(index, value)}
-        />
-      </li>
-    );
-
-    const renderSubMenu = (item, index) => (
-      <li key={index}>
-        <TextControl
-          value={item.title}
-          onChange={(value) => updateSubMenu(index, { ...item, title: value })}
-        />
-        <ul>
-          {item.links.map((link, subIndex) => renderLink(link, subIndex))}
-          <li>
-            <Button isDefault onClick={() => {
-              updateSubMenu(index, { ...item, links: [...item.links, ''] });
-            }}>{__('Add Link')}</Button>
+      const renderItem = (item, index) => {
+        return (
+          <li key={index}>
+            <TextControl value={item.title} onChange={(value) => onItemTitleChange(index, value)} />
+            <Button onClick={() => onAddSubmenu(index)}>{__('Add Submenu')}</Button>
+            {item.submenu.length > 0 && (
+              <ul>
+                {item.submenu.map((submenu, submenuIndex) => (
+                  <li key={`${index}-${submenuIndex}`}>
+                    <TextControl value={submenu.title} onChange={(value) => onSubmenuTitleChange(index, submenuIndex, value)} />
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
-        </ul>
-      </li>
-    );
+        );
+      };
+
+      return (
+        <>
+          <TextControl label={__('Menu Title')} value={menu.title} onChange={onTitleChange} />
+          <SelectControl
+            label={__('Menu Type')}
+            value={menu.type}
+            options={[
+              { label: __('Unordered'), value: 'unordered' },
+              { label: __('Ordered'), value: 'ordered' },
+            ]}
+            onChange={onItemTypeChange}
+          />
+          <ul>
+            {menu.items.map(renderItem)}
+            <li>
+              <TextControl value={newItemTitle} onChange={(value) => setNewItemTitle(value)} />
+              <Button onClick={onAddItem}>{__('Add Item')}</Button>
+            </li>
+          </ul>
+        </>
+      );
+    }
+    const { menu } = attributes;
+
+    const onMenuChange = (newMenu) => {
+      setAttributes({ menu: newMenu });
+    };
 
     return (
       <>
-        <InspectorControls>
-          <PanelBody title={__('Menu Settings')}>
-            <TextControl
-              label={__('Title')}
-              value={title}
-              onChange={(value) => updateTitle(value)}
-            />
-            <Button onClick={addLink}>{__('Add Link')}</Button>
-            <Button onClick={addSubMenu}>{__('Add Submenu')}</Button>
-          </PanelBody>
-        </InspectorControls>
-        <ul>
-          {links.map((link, index) => renderLink(link, index))}
-          {items.map((item, index) => renderSubMenu(item, index))}
-        </ul>
+        <Menu menu={menu} setMenu={onMenuChange} />
       </>
     );
-
   }
 });
