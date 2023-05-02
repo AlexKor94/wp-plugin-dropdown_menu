@@ -84,6 +84,9 @@ registerBlockType(block.name, {
         <Button onClick={handleSaveClick}>{__("Save")}</Button>
       </>
     );
+  },
+  save(attributes) {
+
   }
 
 });
