@@ -86,29 +86,23 @@ registerBlockType(block.name, {
     );
   },
   save({ attributes }) {
-    const { menu } = attributes;
+    const { title, menu } = attributes;
     return (
       <>
-        <TextControl
-          label={__("Menu Title")}
-          value={attributes.title}
-        />
+        <p>
+          {attributes.title}
+        </p>
         <ul>
           {menu.map((item, index) => (
             <li key={index}>
-              <span className="opener">
-                <TextControl
-                  label={__("Item")}
-                  value={item.linkTitle}
-                />
-              </span>
+              {item.subItems.length > 0 ? <span className="opener">
+                {item.linkTitle}
+              </span> : item.linkTitle}
+
               <ul>
                 {item.subItems.map((subItem, subIndex) => (
                   <li key={subIndex}>
-                    <TextControl
-                      label={__("SubItem")}
-                      value={subItem.itemName}
-                    />
+                    {subItem.itemName}
                   </li>
                 ))}
               </ul>
@@ -117,6 +111,5 @@ registerBlockType(block.name, {
         </ul>
       </>
     );
-
   },
 });
