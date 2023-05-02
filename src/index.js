@@ -21,6 +21,19 @@ registerBlockType(block.name, {
     const handleSaveClick = () => {
       setAttributes({ menu });
     };
+
+    const handleDeleteItemClick = (index) => {
+      const newMenu = [...menu];
+      newMenu.splice(index, 1);
+      handleMenuChange(newMenu);
+    };
+
+    const handleDeleteSubItemClick = (itemIndex, subItemIndex) => {
+      const newMenu = [...menu];
+      newMenu[itemIndex].subItems.splice(subItemIndex, 1);
+      handleMenuChange(newMenu);
+    };
+
     return (
       <>
         <TextControl
@@ -42,6 +55,9 @@ registerBlockType(block.name, {
                     handleMenuChange(newMenu);
                   }}
                 />
+                <Button onClick={() => handleDeleteItemClick(index)}>
+                  {__("Delete Item")}
+                </Button>
               </span>
               <ul>
                 {item.subItems.map((subItem, subIndex) => (
@@ -55,6 +71,13 @@ registerBlockType(block.name, {
                         handleMenuChange(newMenu);
                       }}
                     />
+                    <Button
+                      onClick={() =>
+                        handleDeleteSubItemClick(index, subIndex)
+                      }
+                    >
+                      {__("Delete SubItem")}
+                    </Button>
                   </li>
                 ))}
               </ul>
