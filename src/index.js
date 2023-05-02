@@ -118,6 +118,5 @@ registerBlockType(block.name, {
       </>
     );
 
-  }
-
+  },
 });
