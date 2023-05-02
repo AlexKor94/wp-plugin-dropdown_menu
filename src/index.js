@@ -74,7 +74,7 @@ registerBlockType(block.name, {
         <Button
           onClick={() => {
             const newMenu = [...menu];
-            newMenu.push({ linkTitle: "", subItems: [{ itemName: "" }] });
+            newMenu.push({ linkTitle: "", subItems: [] });
             handleMenuChange(newMenu);
           }}
         >

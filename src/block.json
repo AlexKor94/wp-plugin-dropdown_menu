@@ -14,16 +14,12 @@
       "type":"string",
       "default":""
       },
-    "type":{
-      "type":"string",
-      "default":"unordered"
-      },
     "menu": {
         "type":"array",
         "default": [
           {
             "linkTitle": "General",
-            "subItems":[{"itemName":""}]
+            "subItems":[]
           }
         ]
       }
