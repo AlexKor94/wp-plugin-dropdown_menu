@@ -22,7 +22,7 @@
         "type":"array",
         "default": [
           {
-            "linkTitle": "txt",
+            "linkTitle": "",
             "link":"",
             "subItems":[]
           }
