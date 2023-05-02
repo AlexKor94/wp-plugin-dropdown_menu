@@ -23,8 +23,7 @@
         "default": [
           {
             "linkTitle": "General",
-            "link":"#",
-            "subItems":[[],[]]
+            "subItems":[{"itemName":""}]
           }
         ]
       }

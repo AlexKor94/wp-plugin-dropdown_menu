@@ -27,25 +27,30 @@ registerBlockType(block.name, {
             menu.map(element => {
               return (
                 <li>
-                  <TextControl
-                    label={__('Link Title')}
-                    value={element.linkTitle} />
-                  <TextControl
-                    label={__('Link')}
-                    value={element.link} />
-                  {element.subItems.map(el => {
-                    return (
-                      
-                    )
-                  })}
-                  <span className='opener'></span>
+                  <span className='opener'>
+                    <TextControl
+                      label={__('Item')}
+                      value={element.linkTitle} />
+                  </span>
+                  <ul>
+                    {element.subItems.map(el => {
+                      return (
+                        <li>
+                          <TextControl
+                            label={__('SubItem')}
+                            value={el.itemName} />
+                        </li>
+                      )
+                    })}
+                  </ul>
+                  <Button>{__('Add SubItem')}</Button>
                 </li>
               );
             })
           }
         </ul>
 
-        <Button onClick={onAddItem(menu)}>{__('Add Item')}</Button>
+        <Button>{__('Add Item')}</Button>
       </>
     );
   }
