@@ -22,9 +22,9 @@
         "type":"array",
         "default": [
           {
-            "linkTitle": "",
-            "link":"",
-            "subItems":[]
+            "linkTitle": "General",
+            "link":"#",
+            "subItems":[[],[]]
           }
         ]
       }

@@ -13,9 +13,9 @@ registerBlockType(block.name, {
   edit({ attributes, setAttributes }) {
     const { title, menu } = attributes;
 
-    const onAddItem = (obj) => {
-      const newMenu = menu.push(obj);
-      setAttributes({ menu });
+    const onAddItem = (arr) => {
+      const newMenu = [...menu, arr];
+      setAttributes({ menu: newMenu });
     };
 
     return (
@@ -30,13 +30,22 @@ registerBlockType(block.name, {
                   <TextControl
                     label={__('Link Title')}
                     value={element.linkTitle} />
+                  <TextControl
+                    label={__('Link')}
+                    value={element.link} />
+                  {element.subItems.map(el => {
+                    return (
+                      
+                    )
+                  })}
+                  <span className='opener'></span>
                 </li>
               );
             })
           }
         </ul>
 
-        <Button onClick={onAddItem()}>{__('Add Item')}</Button>
+        <Button onClick={onAddItem(menu)}>{__('Add Item')}</Button>
       </>
     );
   }
