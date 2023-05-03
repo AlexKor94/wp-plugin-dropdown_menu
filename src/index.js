@@ -35,15 +35,14 @@ registerBlockType(block.name, {
       handleMenuChange(newMenu);
     };
 
+    const handleLinkChange = (index, newLink) => {
+      const newMenu = [...menu];
+      newMenu[index].link = newLink;
+      handleMenuChange(newMenu);
+    };
+
     return (
       <>
-        <BlockControls>
-          <Toolbar>
-            <a href={link} target="_blank" rel="noopener noreferrer">
-              <Icon icon="external" />
-            </a>
-          </Toolbar>
-        </BlockControls>
 
         <TextControl
           label={__("Menu Title")}
@@ -55,12 +54,19 @@ registerBlockType(block.name, {
           {menu.map((item, index) => (
             <li key={index}>
               <span className="opener">
-                <TextControl
-                  label={__("Item")}
+                <RichText
+                  tagName='a'
+                  placeholder={__('Enter Item')}
                   value={item.linkTitle}
+                  href={item.link}
                   onChange={(linkTitle) => {
                     const newMenu = [...menu];
                     newMenu[index].linkTitle = linkTitle;
+                    handleMenuChange(newMenu);
+                  }}
+                  onChangeHref={(linkHref) => {
+                    const newMenu = [...menu];
+                    newMenu[index].link = linkHref;
                     handleMenuChange(newMenu);
                   }}
                 />
