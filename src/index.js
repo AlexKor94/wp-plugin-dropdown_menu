@@ -55,7 +55,6 @@ registerBlockType(block.name, {
             <li key={index}>
               <span className="opener">
                 <RichText
-                  tagName='a'
                   placeholder={__('Enter Item')}
                   value={item.linkTitle}
                   href={item.link}
@@ -119,6 +118,8 @@ registerBlockType(block.name, {
           {__("Add Item")}
         </Button>
 
+        {console.log(menu)}
+
         <Button onClick={handleSaveClick}>{__("Save")}</Button>
 
       </>
@@ -136,8 +137,18 @@ registerBlockType(block.name, {
           {menu.map((item, index) => (
             <li key={index}>
               {item.subItems.length > 0 ? <span className="opener">
-                {item.linkTitle}
-              </span> : item.linkTitle}
+                <RichText.Content
+
+                  value={item.linkTitle}
+                  href={item.link}
+                />
+              </span>
+                :
+                <RichText.Content
+
+                  value={item.linkTitle}
+                  href={item.link}
+                />}
 
               <ul>
                 {item.subItems.map((subItem, subIndex) => (
