@@ -2,11 +2,12 @@ import { registerBlockType } from '@wordpress/blocks';
 import block from "./block.json";
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState } from '@wordpress/element';
-import { InspectorControls, RichText, List } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl, Button } from "@wordpress/components";
+import { InspectorControls, RichText, List, BlockControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl, SelectControl, Button, Toolbar } from "@wordpress/components";
 import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
 import { decodeEntities } from '@wordpress/html-entities';
+import { Icon } from '@wordpress/icons';
 
 registerBlockType(block.name, {
 
@@ -36,6 +37,14 @@ registerBlockType(block.name, {
 
     return (
       <>
+        <BlockControls>
+          <Toolbar>
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              <Icon icon="external" />
+            </a>
+          </Toolbar>
+        </BlockControls>
+
         <TextControl
           label={__("Menu Title")}
           value={attributes.title}
@@ -105,12 +114,6 @@ registerBlockType(block.name, {
         </Button>
 
         <Button onClick={handleSaveClick}>{__("Save")}</Button>
-        <InspectorControls>
-          <PanelBody title={__("Block Settings")} initialOpen={true}>
-            <p>hello</p>
-          </PanelBody>
-        </InspectorControls>
-
 
       </>
 
