@@ -105,7 +105,15 @@ registerBlockType(block.name, {
         </Button>
 
         <Button onClick={handleSaveClick}>{__("Save")}</Button>
+        <InspectorControls>
+          <PanelBody title={__("Block Settings")} initialOpen={true}>
+            <p>hello</p>
+          </PanelBody>
+        </InspectorControls>
+
+
       </>
+
     );
   },
   save({ attributes }) {
