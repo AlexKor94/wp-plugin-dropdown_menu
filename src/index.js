@@ -57,7 +57,6 @@ registerBlockType(block.name, {
                 <RichText
                   placeholder={__('Enter Item')}
                   value={item.linkTitle}
-                  href={item.link}
                   onChange={(linkTitle) => {
                     const newMenu = [...menu];
                     newMenu[index].linkTitle = linkTitle;
@@ -138,16 +137,12 @@ registerBlockType(block.name, {
             <li key={index}>
               {item.subItems.length > 0 ? <span className="opener">
                 <RichText.Content
-
                   value={item.linkTitle}
-                  href={item.link}
                 />
               </span>
                 :
                 <RichText.Content
-
                   value={item.linkTitle}
-                  href={item.link}
                 />}
 
               <ul>
