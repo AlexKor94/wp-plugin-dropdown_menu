@@ -62,11 +62,6 @@ registerBlockType(block.name, {
                     newMenu[index].linkTitle = linkTitle;
                     handleMenuChange(newMenu);
                   }}
-                  onChangeHref={(linkHref) => {
-                    const newMenu = [...menu];
-                    newMenu[index].link = linkHref;
-                    handleMenuChange(newMenu);
-                  }}
                 />
                 <Button onClick={() => handleDeleteItemClick(index)}>
                   {__("Delete Item")}
@@ -75,8 +70,8 @@ registerBlockType(block.name, {
               <ul>
                 {item.subItems.map((subItem, subIndex) => (
                   <li key={subIndex}>
-                    <TextControl
-                      label={__("SubItem")}
+                    <RichText
+                      placeholder={__("SubItem")}
                       value={subItem.itemName}
                       onChange={(itemName) => {
                         const newMenu = [...menu];
@@ -129,9 +124,9 @@ registerBlockType(block.name, {
     const { title, menu } = attributes;
     return (
       <>
-        <p>
+        <nav id="menu">
           {attributes.title}
-        </p>
+        </nav>
         <ul>
           {menu.map((item, index) => (
             <li key={index}>
@@ -148,7 +143,9 @@ registerBlockType(block.name, {
               <ul>
                 {item.subItems.map((subItem, subIndex) => (
                   <li key={subIndex}>
-                    {subItem.itemName}
+                    <RichText.Content
+                      value={subItem.itemName}
+                    />
                   </li>
                 ))}
               </ul>
