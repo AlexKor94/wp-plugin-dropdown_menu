@@ -8,6 +8,7 @@ import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
 import { decodeEntities } from '@wordpress/html-entities';
 import { Icon } from '@wordpress/icons';
+import './index.css';
 
 registerBlockType(block.name, {
 
@@ -53,20 +54,20 @@ registerBlockType(block.name, {
         <ul>
           {menu.map((item, index) => (
             <li key={index}>
-              <span className="opener">
-                <RichText
-                  placeholder={__('Enter Item')}
-                  value={item.linkTitle}
-                  onChange={(linkTitle) => {
-                    const newMenu = [...menu];
-                    newMenu[index].linkTitle = linkTitle;
-                    handleMenuChange(newMenu);
-                  }}
-                />
-                <Button onClick={() => handleDeleteItemClick(index)}>
-                  {__("Delete Item")}
-                </Button>
-              </span>
+
+              <RichText
+                placeholder={__('Enter Item')}
+                value={item.linkTitle}
+                onChange={(linkTitle) => {
+                  const newMenu = [...menu];
+                  newMenu[index].linkTitle = linkTitle;
+                  handleMenuChange(newMenu);
+                }}
+              />
+              <Button onClick={() => handleDeleteItemClick(index)}>
+                {__("Delete Item")}
+              </Button>
+
               <ul>
                 {item.subItems.map((subItem, subIndex) => (
                   <li key={subIndex}>
@@ -125,33 +126,38 @@ registerBlockType(block.name, {
     return (
       <>
         <nav id="menu">
-          {attributes.title}
-        </nav>
-        <ul>
-          {menu.map((item, index) => (
-            <li key={index}>
-              {item.subItems.length > 0 ? <span className="opener">
-                <RichText.Content
-                  value={item.linkTitle}
-                />
-              </span>
-                :
-                <RichText.Content
-                  value={item.linkTitle}
-                />}
+          <header className='major'>
+            <h2>{attributes.title}</h2>
+          </header>
+          <ul>
+            {menu.map((item, index) => (
+              <li key={index}>
+                {item.subItems.length > 0 ? <span className="opener">
+                  <RichText.Content
+                    value={item.linkTitle}
+                  />
+                </span>
+                  :
+                  <RichText.Content
+                    value={item.linkTitle}
+                  />}
+                {item.subItems.length > 0 ?
+                  <ul>
+                    {item.subItems.map((subItem, subIndex) => (
+                      <li key={subIndex}>
+                        <RichText.Content
+                          value={subItem.itemName}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                  : null
+                }
 
-              <ul>
-                {item.subItems.map((subItem, subIndex) => (
-                  <li key={subIndex}>
-                    <RichText.Content
-                      value={subItem.itemName}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </>
     );
   },
